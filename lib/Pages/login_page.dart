@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:habit_tracker_app/Components/my_button.dart';
 import 'package:habit_tracker_app/Components/my_textfield.dart';
+import 'package:habit_tracker_app/Services/auth/auth_services.dart';
 
 class LoginPage extends StatelessWidget {
   final void Function()? onTap;
@@ -11,7 +12,22 @@ class LoginPage extends StatelessWidget {
   final _passwordController = TextEditingController();
 
   //* Login Function
-  void login() {}
+  void login(BuildContext context) async {
+    AuthServices _auth = AuthServices();
+
+    try {
+      await _auth.signIn(
+          _emailController.text.trim(), _passwordController.text.trim());
+    } catch (e) {
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text(e.toString()),
+            );
+          });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +85,7 @@ class LoginPage extends StatelessWidget {
             //* SignIn Button
             MyButton(
               text: 'Login',
-              onTap: login,
+              onTap: () => login(context),
             ),
 
             const SizedBox(

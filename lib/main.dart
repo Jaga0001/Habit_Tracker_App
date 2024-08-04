@@ -1,9 +1,13 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:habit_tracker_app/Services/auth/login_or_register.dart';
+import 'package:habit_tracker_app/Services/auth/auth_gate.dart';
 import 'package:habit_tracker_app/Themes/dark_mode.dart';
 import 'package:habit_tracker_app/Themes/light_mode.dart';
+import 'package:habit_tracker_app/firebase_options.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(MyApp());
 }
 
@@ -16,7 +20,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: lightMode,
       darkTheme: darkMode,
-      home: LoginOrRegister(),
+      home: AuthGate(),
     );
   }
 }
