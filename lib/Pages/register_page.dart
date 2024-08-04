@@ -8,7 +8,6 @@ class RegisterPage extends StatelessWidget {
   RegisterPage({super.key, this.onTap});
 
   //* Intialize Text Editing Controller
-  final _userNameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
