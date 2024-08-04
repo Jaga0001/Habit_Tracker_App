@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:habit_tracker_app/Components/my_button.dart';
 import 'package:habit_tracker_app/Components/my_textfield.dart';
+import 'package:habit_tracker_app/Services/auth/auth_services.dart';
 
 class RegisterPage extends StatelessWidget {
   final void Function()? onTap;
@@ -12,8 +13,26 @@ class RegisterPage extends StatelessWidget {
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
-  //* Login Function
-  void login() {}
+  //* Register Function
+  void register(BuildContext context) async {
+    //* Get Auth Services
+    AuthServices _auth = AuthServices();
+
+    if (_passwordController.text.trim() ==
+        _confirmPasswordController.text.trim()) {
+      try {
+        await _auth.signUp(_emailController.text, _passwordController.text);
+      } catch (e) {
+        showDialog(
+            context: context,
+            builder: (context) {
+              return AlertDialog(
+                title: Text(e.toString()),
+              );
+            });
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -33,17 +52,6 @@ class RegisterPage extends StatelessWidget {
 
             const SizedBox(
               height: 50,
-            ),
-
-            //* Username TextField
-            MyTextfield(
-              controller: _userNameController,
-              hintText: 'Username',
-              obscureText: false,
-            ),
-
-            const SizedBox(
-              height: 20,
             ),
 
             //* Email TextField
@@ -79,17 +87,17 @@ class RegisterPage extends StatelessWidget {
               height: 20,
             ),
 
-            //* SignIn Button
+            //* SignUp Button
             MyButton(
-              text: 'Login',
-              onTap: login,
+              text: 'Register',
+              onTap: () => register(context),
             ),
 
             const SizedBox(
               height: 10,
             ),
 
-            //* Don't You have a account register now Toggle
+            //* Already a Member SignIn Toggle
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
