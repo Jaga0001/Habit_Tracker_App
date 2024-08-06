@@ -19,10 +19,6 @@ The Habit Tracker App is a powerful and user-friendly application built with Flu
 - **Frontend**: Flutter
 - **Backend**: Firebase (Authentication, Firestore)
 
-## Architecture
-
-The app follows clean architecture principles to ensure maintainability and scalability. State management is handled with Riverpod, and `ChangeNotifier` is used for state management in the initial stages. The project includes unit tests for critical components and adheres to best practices for Flutter development.
-
 ## Installation
 
 1. Clone the repository:
