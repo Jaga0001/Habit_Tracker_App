@@ -36,4 +36,20 @@ class Habit {
           timestamp), // Convert DateTime to Firestore timestamp
     };
   }
+
+  Habit copyWith({
+    String? id,
+    String? userId,
+    String? name,
+    bool? completed,
+    DateTime? timestamp,
+  }) {
+    return Habit(
+      id: id ?? this.id,
+      userId: userId ?? this.userId,
+      name: name ?? this.name,
+      completed: completed ?? this.completed,
+      timestamp: timestamp ?? this.timestamp,
+    );
+  }
 }
