@@ -54,28 +54,59 @@ class HomePage extends StatelessWidget {
                       final habits = snapshot.data!;
                       final habitData = getHabitData(habits);
 
-                      return HeatMap(
-                        startDate: DateTime.now().subtract(Duration(days: 365)),
-                        endDate: DateTime.now(),
-                        datasets: habitData,
-                        colorsets: const {
-                          1: Colors.green,
-                          2: Colors.greenAccent,
-                          3: Colors.lightGreen,
-                          4: Colors.lightGreenAccent,
-                        },
-                        colorMode: ColorMode.opacity,
-                        textColor: Colors.black,
-                        showColorTip: true,
-                        scrollable: true,
-                        onClick: (date) {
-                          final value = habitData[date] ?? 0;
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                                content:
-                                    Text('$value habits on ${date.toLocal()}')),
-                          );
-                        },
+                      return Column(
+                        children: [
+                          // HeatMap widget
+                          Expanded(
+                            flex: 2,
+                            child: HeatMap(
+                              startDate:
+                                  DateTime.now().subtract(Duration(days: 365)),
+                              endDate: DateTime.now(),
+                              datasets: habitData,
+                              colorsets: const {
+                                1: Colors.green,
+                                2: Colors.greenAccent,
+                                3: Colors.lightGreen,
+                                4: Colors.lightGreenAccent,
+                              },
+                              colorMode: ColorMode.opacity,
+                              textColor: Colors.black,
+                              showColorTip: true,
+                              scrollable: true,
+                              onClick: (date) {
+                                final value = habitData[date] ?? 0;
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                      content: Text(
+                                          '$value habits on ${date.toLocal()}')),
+                                );
+                              },
+                            ),
+                          ),
+                          // List of habits
+                          Expanded(
+                            flex: 1,
+                            child: ListView.builder(
+                              itemCount: habits.length,
+                              itemBuilder: (context, index) {
+                                final habit = habits[index];
+                                return ListTile(
+                                  title: Text(habit.name),
+                                  subtitle: Text(habit.completed
+                                      ? 'Completed'
+                                      : 'Not Completed'),
+                                  trailing: Icon(
+                                    habit.completed ? Icons.check : Icons.close,
+                                    color: habit.completed
+                                        ? Colors.green
+                                        : Colors.red,
+                                  ),
+                                );
+                              },
+                            ),
+                          ),
+                        ],
                       );
                     },
                   ),
