@@ -126,7 +126,7 @@ class _HomePageState extends State<HomePage> {
                           Expanded(
                             child: HeatMap(
                               startDate:
-                                  DateTime.now().subtract(Duration(days: 7)),
+                                  DateTime.now().subtract(Duration(days: 1)),
                               endDate: DateTime.now(),
                               datasets: habitData,
                               colorMode: ColorMode.color,
@@ -163,22 +163,26 @@ class _HomePageState extends State<HomePage> {
                           final habit = habits[index];
                           return Slidable(
                             key: Key(habit.id),
-                            startActionPane: ActionPane(
+                            endActionPane: ActionPane(
                               motion: const ScrollMotion(),
                               children: [
                                 SlidableAction(
+                                  padding: EdgeInsets.all(10),
                                   onPressed: (context) =>
                                       _updateHabit(context, habit),
                                   backgroundColor: Colors.blue,
                                   foregroundColor: Colors.white,
+                                  borderRadius: BorderRadius.circular(8),
                                   icon: Icons.edit,
                                   label: 'Update',
                                 ),
                                 SlidableAction(
+                                  padding: EdgeInsets.all(10),
                                   onPressed: (context) =>
                                       _deleteHabit(context, habit),
                                   backgroundColor: Colors.red,
                                   foregroundColor: Colors.white,
+                                  borderRadius: BorderRadius.circular(8),
                                   icon: Icons.delete,
                                   label: 'Delete',
                                 ),
