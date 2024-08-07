@@ -140,7 +140,7 @@ class _HomePageState extends State<HomePage> {
                                 4: Color.fromARGB(255, 136, 255, 0),
                                 5: Color.fromARGB(255, 0, 255, 8)
                               },
-                              textColor: Colors.black,
+                              textColor: Colors.white,
                               showColorTip: false,
                               showText: true,
                               scrollable: true,
