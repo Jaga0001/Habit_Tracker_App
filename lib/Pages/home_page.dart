@@ -19,8 +19,8 @@ class _HomePageState extends State<HomePage> {
   final HabitService _habitService = HabitService();
 
   void signOut() {
-    AuthServices _auth = AuthServices();
-    _auth.signOut();
+    final AuthServices auth = AuthServices();
+    auth.signOut();
   }
 
   void _showAddHabitDialog(BuildContext context) {
@@ -28,33 +28,33 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _updateHabit(BuildContext context, Habit habit) async {
-    final TextEditingController _nameController =
+    final TextEditingController nameController =
         TextEditingController(text: habit.name);
 
     await showDialog(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Update Habit'),
+          title: const Text('Update Habit'),
           content: TextField(
-            controller: _nameController,
-            decoration: InputDecoration(labelText: 'Habit Name'),
+            controller: nameController,
+            decoration: const InputDecoration(labelText: 'Habit Name'),
           ),
           actions: [
             TextButton(
               onPressed: () async {
-                final updatedName = _nameController.text.trim();
+                final updatedName = nameController.text.trim();
                 if (updatedName.isNotEmpty) {
                   final updatedHabit = habit.copyWith(name: updatedName);
                   await _habitService.updateHabit(updatedHabit);
                   Navigator.of(context).pop();
                 }
               },
-              child: Text('Update'),
+              child: const Text('Update'),
             ),
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
             ),
           ],
         );
@@ -81,25 +81,27 @@ class _HomePageState extends State<HomePage> {
       appBar: AppBar(
         title: const Text('Habit Tracker',
             style: TextStyle(fontWeight: FontWeight.w500)),
-        actions: [IconButton(onPressed: signOut, icon: Icon(Icons.logout))],
+        actions: [
+          IconButton(onPressed: signOut, icon: const Icon(Icons.logout))
+        ],
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _showAddHabitDialog(context),
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
       body: user == null
-          ? Center(child: Text('No user logged in'))
+          ? const Center(child: Text('No user logged in'))
           : StreamBuilder<List<Habit>>(
               stream: _habitService.getHabitsStream(user.uid),
               builder: (context, snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
-                  return Center(child: CircularProgressIndicator());
+                  return const Center(child: CircularProgressIndicator());
                 }
                 if (snapshot.hasError) {
                   return Center(child: Text('Error: ${snapshot.error}'));
                 }
                 if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                  return Center(child: Text('No habits found.'));
+                  return const Center(child: Text('No habits found.'));
                 }
 
                 final habits = snapshot.data!;
@@ -113,10 +115,10 @@ class _HomePageState extends State<HomePage> {
                         children: [
                           // Month header
                           Container(
-                            padding: EdgeInsets.symmetric(vertical: 10),
+                            padding: const EdgeInsets.symmetric(vertical: 10),
                             child: Text(
                               DateFormat('MMMM yyyy').format(DateTime.now()),
-                              style: TextStyle(
+                              style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -125,8 +127,8 @@ class _HomePageState extends State<HomePage> {
                           // HeatMap widget
                           Expanded(
                             child: HeatMap(
-                              startDate:
-                                  DateTime.now().subtract(Duration(days: 1)),
+                              startDate: DateTime.now()
+                                  .subtract(const Duration(days: 1)),
                               endDate: DateTime.now(),
                               datasets: habitData,
                               colorMode: ColorMode.color,
@@ -167,7 +169,7 @@ class _HomePageState extends State<HomePage> {
                               motion: const ScrollMotion(),
                               children: [
                                 SlidableAction(
-                                  padding: EdgeInsets.all(10),
+                                  padding: const EdgeInsets.all(10),
                                   onPressed: (context) =>
                                       _updateHabit(context, habit),
                                   backgroundColor: Colors.blue,
@@ -177,7 +179,7 @@ class _HomePageState extends State<HomePage> {
                                   label: 'Update',
                                 ),
                                 SlidableAction(
-                                  padding: EdgeInsets.all(10),
+                                  padding: const EdgeInsets.all(10),
                                   onPressed: (context) =>
                                       _deleteHabit(context, habit),
                                   backgroundColor: Colors.red,
@@ -189,7 +191,7 @@ class _HomePageState extends State<HomePage> {
                               ],
                             ),
                             child: Card(
-                              margin: EdgeInsets.symmetric(
+                              margin: const EdgeInsets.symmetric(
                                   vertical: 5, horizontal: 10),
                               child: ListTile(
                                 leading: Checkbox(
